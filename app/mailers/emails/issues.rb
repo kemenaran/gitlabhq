@@ -30,7 +30,8 @@ module Emails
       @issue_status = status
       @project = @issue.project
       @updated_by = User.find updated_by_user_id
-      mail(to: recipient(recipient_id),
+      mail(from: sender(updated_by_user_id),
+           to: recipient(recipient_id),
            subject: subject("#{@issue.title} (##{@issue.iid})"))
     end
   end
