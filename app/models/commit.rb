@@ -10,11 +10,11 @@ class Commit
   # Used to prevent 500 error on huge commits by suppressing diff
   #
   # User can force display of diff above this size
-  DIFF_SAFE_FILES  = 100
-  DIFF_SAFE_LINES  = 5000
+  DIFF_SAFE_FILES  = 200
+  DIFF_SAFE_LINES  = 10000
   # Commits above this size will not be rendered in HTML
-  DIFF_HARD_LIMIT_FILES = 500
-  DIFF_HARD_LIMIT_LINES = 10000
+  DIFF_HARD_LIMIT_FILES = 1000
+  DIFF_HARD_LIMIT_LINES = 20000
 
   class << self
     def decorate(commits)
