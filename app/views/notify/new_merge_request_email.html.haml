@@ -1,7 +1,8 @@
 %p
-  = "New Merge Request ##{@merge_request.iid}"
-%p
   != merge_path_description(@merge_request, '&rarr;')
-%p
-  Assignee: #{@merge_request.author_name} &rarr; #{@merge_request.assignee_name}
 
+- if @merge_request.assignee_id.present?
+  %p
+    Assignee: #{@merge_request.author_name} &rarr; #{@merge_request.assignee_name}
+
+= markdown(@merge_request.description)

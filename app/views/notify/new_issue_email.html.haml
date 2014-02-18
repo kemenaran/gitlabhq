@@ -1,6 +1,4 @@
-%p
-  New Issue was created.
-%p
-  Author: #{@issue.author_name}
-%p
-  Assignee: #{@issue.assignee_name}
+= markdown(@issue.description)
+- if @issue.assignee_id.present?
+  %p
+    Assignee: #{@issue.assignee_name}
