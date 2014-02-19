@@ -20,7 +20,7 @@ module Emails
       @note = Note.find(note_id)
       @merge_request = @note.noteable
       @project = @note.project
-      @target_url = project_merge_request_url(@project, @merge_request)
+      @target_url = project_merge_request_url(@project, @merge_request, anchor: "note_#{@note.id}")
       mail(from: sender(@note.author_id), to: recipient(recipient_id), subject: subject("#{@merge_request.title} (!#{@merge_request.iid})"))
     end
 
