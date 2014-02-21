@@ -10,7 +10,7 @@ describe Notify do
 
   shared_examples 'a multiple recipients email' do
     it 'is sent to the given recipient' do
-      should deliver_to recipient.email
+      should cc_to recipient.email
     end
   end
 
@@ -141,7 +141,7 @@ describe Notify do
         end
 
         it 'is sent to the assignee' do
-          should deliver_to assignee.email
+          should cc_to assignee.email
         end
       end
 
@@ -374,7 +374,7 @@ describe Notify do
         end
 
         it 'is sent to the given recipient' do
-          should deliver_to recipient.email
+          should cc_to recipient.email
         end
 
         it 'contains the message from the note' do
@@ -518,7 +518,7 @@ describe Notify do
     end
 
     it 'is sent to recipient' do
-      should deliver_to 'devs@company.name'
+      should cc_to 'devs@company.name'
     end
 
     it 'has the correct subject' do
