@@ -4,7 +4,7 @@ module Emails
       @user = User.find(user_id)
       @password = password
       @target_url = user_url(@user)
-      mail(to: @user.email, subject: subject("Account was created for you"))
+      mail(cc: @user.email, subject: subject("Account was created for you"))
     end
 
     def new_email_email(email_id)
@@ -17,7 +17,7 @@ module Emails
       @key = Key.find(key_id)
       @user = @key.user
       @target_url = user_url(@user)
-      mail(to: @user.email, subject: subject("SSH key was added to your account"))
+      mail(cc: @user.email, subject: subject("SSH key was added to your account"))
     end
   end
 end
