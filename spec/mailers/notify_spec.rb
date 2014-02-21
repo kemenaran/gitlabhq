@@ -17,7 +17,7 @@ describe Notify do
 
   shared_examples 'a multiple recipients email' do
     it 'is sent to the given recipient' do
-      is_expected.to deliver_to recipient.notification_email
+      is_expected.to cc_to recipient.notification_email
     end
   end
 
@@ -176,7 +176,7 @@ describe Notify do
         end
 
         it 'is sent to the assignee' do
-          is_expected.to deliver_to assignee.email
+          is_expected.to cc_to assignee.email
         end
       end
 
@@ -499,7 +499,7 @@ describe Notify do
         end
 
         it 'is sent to the given recipient' do
-          is_expected.to deliver_to recipient.notification_email
+          is_expected.to cc_to recipient.notification_email
         end
 
         it 'contains the message from the note' do
@@ -657,7 +657,7 @@ describe Notify do
     end
 
     it 'is sent to recipient' do
-      is_expected.to deliver_to 'devs@company.name'
+      is_expected.to cc_to 'devs@company.name'
     end
 
     it 'has the correct subject' do
@@ -745,7 +745,7 @@ describe Notify do
     end
 
     it 'is sent to recipient' do
-      is_expected.to deliver_to 'devs@company.name'
+      is_expected.to cc_to 'devs@company.name'
     end
 
     it 'has the correct subject' do
