@@ -3,12 +3,21 @@
     %meta{content: "text/html; charset=utf-8", "http-equiv" => "Content-Type"}
       %title
         GitLab
+  :css
+    p.details {
+      font-style:italic;
+      color:#777
+    }
+    .footer p {
+      font-size:small;
+      color:#777
+    }
 
   %body
     %div.content
       = yield
     %div.footer{style: "margin-top: 10px;"}
-      %p{style: "margin:0; font-size:small; color:#777"}
+      %p
         \—
         %br
         - if @project
