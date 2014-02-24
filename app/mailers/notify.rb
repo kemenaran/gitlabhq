@@ -91,4 +91,47 @@ class Notify < ActionMailer::Base
     subject << extra.join(' | ') if extra.present?
     subject
   end
+
+  # A string suitable for inclusion in the Message-Id mail header,
+  # built from the unique URL to a model object.
+  def message_id(model)
+    model_name = model.class.model_name.singular_route_key
+    "#{model_name}_#{model.id}@#{Gitlab.config.gitlab.host}"
+  end
+
+  # Send an email that starts a new conversation thread,
+  # with headers suitable for grouping by thread in email clients.
+  #
+  # See: mail_answer_thread
+  def mail_new_thread(model, headers = {}, &block)
+    raise ArgumentError, '"To:" header will be overwritten; use "Cc:" or "Bcc:"' unless headers[:to].nil?
+    headers[:to] = project_sender_address.format
+
+    headers['Message-ID'] = message_id(model)
+
+    mail(headers, &block)
+  end
+
+  # Send an email that responds to an existing conversation thread,
+  # with headers suitable for grouping by thread in email clients.
+  #
+  # For grouping emails by thread, email clients require the answers to:
+  #
+  #  * have a subject that begin by "Re: "
+  #  * have a 'In-Reply-To' or 'References' header that references the original 'Message-ID'
+  #  * the 'From' and 'To' header to be stable between messages of the same thread
+  #
+  def mail_answer_thread(model, headers = {}, &block)
+    raise ArgumentError, '"To:" header will be overwritten; use "Cc:" or "Bcc:"' unless headers[:to].nil?
+    headers[:to] = project_sender_address.format
+
+    headers['In-Reply-To'] = message_id(model)
+    headers['References'] = message_id(model)
+
+    if (headers[:subject])
+      headers[:subject].prepend('Re: ')
+    end
+
+    mail(headers, &block)
+  end
 end

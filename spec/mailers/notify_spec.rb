@@ -161,6 +161,10 @@ describe Notify do
           it 'contains a link to the new issue' do
             should have_body_text /#{project_issue_path project, issue}/
           end
+
+          it 'has a discussion identifier' do
+            should have_header 'Message-ID', /^issue_#{issue.id}/
+          end
         end
 
         describe 'that are new with a description' do
@@ -211,6 +215,11 @@ describe Notify do
 
           it 'has the correct subject' do
             should have_subject /#{issue.title} \(##{issue.iid}\)/i
+          end
+
+          it 'belongs to the same discussion' do
+            should have_header 'In-Reply-To', /^issue_#{issue.id}/
+            should have_header 'References',  /^issue_#{issue.id}/
           end
 
           it 'contains the new status' do
