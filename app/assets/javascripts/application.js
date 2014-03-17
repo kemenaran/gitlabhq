@@ -15,6 +15,8 @@
 //= require jquery.atwho
 //= require jquery.scrollto
 //= require jquery.blockUI
+//= require jquery.iframe-transport
+//= require jquery.fileupload
 //= require turbolinks
 //= require jquery.turbolinks
 //= require bootstrap

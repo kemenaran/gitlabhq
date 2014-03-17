@@ -153,6 +153,19 @@ class ProjectsController < ApplicationController
     end
   end
 
+  def upload_asset
+    asset = params[:asset]
+
+    uploader = AssetsUploader.new(@project)
+    uploader.store!(asset)
+
+    absolute_url = root_url.sub(/\/*$/, '') + uploader.url
+
+    respond_to do |format|
+      format.json { render :json => {asset: { href: absolute_url, original_name: asset.original_filename }} }
+    end
+  end
+
   private
 
   def set_title

@@ -1,0 +1,93 @@
+%input{id: "fileupload", style: 'display: none', type: "file", name: "asset", data: { 'url' => project_path(@project) + '/assets'} }
+
+:javascript
+
+  // File upload support functions
+
+  function targetForDropEvent(e, file) {
+    var dropTarget = e.delegatedEvent.target;
+    var isTextArea = dropTarget.nodeName.toLowerCase() === 'textarea';
+    if (isTextArea) {
+      return dropTarget;
+    } else {
+      return null;
+    }
+  }
+
+  function hasMarkdownForFile(textarea, filename) {
+    var pattern = '!\\[' + filename + '\\]';
+    return $(textarea).val().match(new RegExp(pattern));
+  }
+
+  function addUploadingPlaceholder(textarea, filename) {
+    var text = $(textarea).val();
+    if (text !== '') {
+      text += "\n";
+    }
+    var placeholder = "![" + filename + "](Uploading…)";
+    $(textarea).val(text + placeholder).trigger('input');
+  }
+
+  function replaceUploadingPlaceholder(textarea, filename, asset) {
+    var text = $(textarea).val();
+
+    var pattern = '!\\[' + filename + '\\]\\([:a-zA-Z…]*\\)';
+    var replacement = '![' + filename + '](' + asset.href + ')';
+    var updatedText = text.replace(new RegExp(pattern), replacement);
+
+    $(textarea).val(updatedText).trigger('input');
+  }
+
+  function uploadFailed(data) {
+    var error = data.errorThrown;
+    var message = error ? 'Upload failed: ' + error : 'Upload failed.';
+    alert(message);
+
+    removeUploadingPlaceholder(data.context.element, data.context.filename);
+  }
+
+  function removeUploadingPlaceholder(textarea, filename) {
+    var text = $(textarea).val();
+
+    var pattern = '!\\[' + filename + '\\]\\([:a-zA-Z…]*\\)';
+    var updatedText = text.replace(new RegExp(pattern), '');
+
+    $(textarea).val(updatedText).trigger('input');
+  }
+
+  // Configure the file upload plugin
+  var fileUploadScope = 'body.project'; // enable drag/drop file upload on textareas of this scope
+
+  $(fileUploadScope + ' #fileupload').fileupload({
+    dataType: 'json',
+    dropZone: $(document),
+
+    submit: function(e, data) {
+      var file = data.files[0];
+      var uploadTarget = targetForDropEvent(e, file);
+      var acceptUpload = uploadTarget && !hasMarkdownForFile(uploadTarget, file.name);
+      if (acceptUpload) {
+        addUploadingPlaceholder(uploadTarget, file.name);
+        data.context = {element: $(uploadTarget),
+                        filename: file.name};
+      }
+      return acceptUpload;
+    },
+
+    done: function (e, data) {
+      if (data.result.asset) {
+        replaceUploadingPlaceholder(data.context.element, data.context.filename, data.result.asset);
+      } else {
+        uploadFailed(data);
+      }
+    },
+
+    fail: function(e, data) {
+      uploadFailed(data);
+    }
+  });
+
+  // Disable the default browser action when dropping a file on the document
+  $(fileUploadScope).bind('drop dragover', function (e) {
+      e.preventDefault();
+  });
