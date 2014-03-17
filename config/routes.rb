@@ -178,6 +178,7 @@ Gitlab::Application.routes.draw do
       post :fork
       post :archive
       post :unarchive
+      post :assets, to: 'projects#upload_asset'
       get :autocomplete_sources
       get :import
       put :retry_import
