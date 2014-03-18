@@ -27,7 +27,7 @@ module Emails
       @project = @merge_request.project
       @target_url = project_merge_request_url(@project, @merge_request)
       mail_answer_thread(@merge_request,
-                         from: sender(@merge_request.author_id),
+                         from: sender(updated_by_user_id),
                          cc: recipient(recipient_id),
                          subject: subject("#{@merge_request.title} (!#{@merge_request.iid})"))
     end
@@ -37,7 +37,7 @@ module Emails
       @project = @merge_request.project
       @target_url = project_merge_request_url(@project, @merge_request)
       mail_answer_thread(@merge_request,
-                         from: sender(@merge_request.author_id),
+                         from: sender(@merge_request.author_id_of_changes),
                          cc: recipient(recipient_id),
                          subject: subject("#{@merge_request.title} (!#{@merge_request.iid})"))
     end
