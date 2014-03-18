@@ -96,7 +96,7 @@ class Notify < ActionMailer::Base
   # built from the unique URL to a model object.
   def message_id(model)
     path = polymorphic_url([model.project, model], routing_type: :path)
-    path.gsub /^\//, ''
+    path = path.gsub /^\//, ''
     "#{path}@#{Gitlab.config.gitlab.host}"
   end
 
