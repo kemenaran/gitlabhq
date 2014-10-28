@@ -425,7 +425,7 @@ class Project < ActiveRecord::Base
     end
 
     # Add comment about pushing new commits to merge requests
-    comment_mr_with_commits(branch_name, commits, user)
+    #comment_mr_with_commits(branch_name, commits, user)
 
     true
   end
