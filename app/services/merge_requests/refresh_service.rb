@@ -10,7 +10,7 @@ module MergeRequests
 
       close_merge_requests
       reload_merge_requests
-      comment_mr_with_commits
+      #comment_mr_with_commits
 
       true
     end
