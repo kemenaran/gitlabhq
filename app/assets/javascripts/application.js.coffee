@@ -15,8 +15,6 @@
 #= require jquery.atwho
 #= require jquery.scrollTo
 #= require jquery.blockUI
-#= require jquery.turbolinks
-#= require turbolinks
 #= require autosave
 #= require bootstrap
 #= require select2
@@ -30,7 +28,6 @@
 #= require d3
 #= require underscore
 #= require nprogress
-#= require nprogress-turbolinks
 #= require dropzone
 #= require semantic-ui/sidebar
 #= require mousetrap
