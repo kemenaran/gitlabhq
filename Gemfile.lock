@@ -303,9 +303,6 @@ GEM
       thor (>= 0.14, < 2.0)
     jquery-scrollto-rails (1.4.3)
       railties (> 3.1, < 5.0)
-    jquery-turbolinks (2.0.1)
-      railties (>= 3.1.0)
-      turbolinks
     jquery-ui-rails (4.2.1)
       railties (>= 3.2.16)
     json (1.8.2)
@@ -611,8 +608,9 @@ GEM
       multi_json (~> 1.7)
       twitter-stream (~> 0.1)
     tins (0.13.1)
-    turbolinks (2.0.0)
-      coffee-rails
+    treetop (1.4.15)
+      polyglot
+      polyglot (>= 0.3.1)
     twitter-stream (0.1.16)
       eventmachine (>= 0.12.8)
       http_parser.rb (~> 0.5.1)
@@ -716,7 +714,6 @@ DEPENDENCIES
   jquery-atwho-rails (~> 0.3.3)
   jquery-rails
   jquery-scrollto-rails
-  jquery-turbolinks
   jquery-ui-rails
   kaminari (~> 0.15.1)
   launchy
@@ -778,7 +775,6 @@ DEPENDENCIES
   test_after_commit
   thin
   tinder (~> 1.9.2)
-  turbolinks
   uglifier
   underscore-rails (~> 1.4.4)
   unf
