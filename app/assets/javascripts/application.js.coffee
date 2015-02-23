@@ -15,9 +15,7 @@
 #= require jquery.atwho
 #= require jquery.scrollTo
 #= require jquery.blockUI
-#= require jquery.turbolinks
 #= require jquery.sticky-kit.min
-#= require turbolinks
 #= require autosave
 #= require bootstrap
 #= require select2
@@ -31,7 +29,6 @@
 #= require d3
 #= require underscore
 #= require nprogress
-#= require nprogress-turbolinks
 #= require dropzone
 #= require mousetrap
 #= require mousetrap/pause
@@ -42,6 +39,10 @@
 #= require shortcuts_network
 #= require cal-heatmap
 #= require_tree .
+
+window.Turbolinks = {
+  visit: (url) -> window.location.href = url
+}
 
 window.slugify = (text) ->
   text.replace(/[^-a-zA-Z0-9]+/g, '_').toLowerCase()
