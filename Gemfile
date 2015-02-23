@@ -188,8 +188,6 @@ gem 'charlock_holmes'
 gem "sass-rails", '~> 4.0.5'
 gem "coffee-rails"
 gem "uglifier"
-gem 'turbolinks', '~> 2.5.0'
-gem 'jquery-turbolinks'
 
 gem 'addressable'
 gem 'bootstrap-sass',     '~> 3.0'
