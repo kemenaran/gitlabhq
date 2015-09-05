@@ -429,4 +429,12 @@ class MergeRequest < ActiveRecord::Base
       "Open"
     end
   end
+
+  def diverged_commits_count
+    Gitlab::Satellite::MergeAction.new(self.author, self).commits_diverged.count
+  end
+
+  def diverged_from_target_branch?
+    diverged_commits_count > 0
+  end
 end

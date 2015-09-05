@@ -8,6 +8,10 @@ describe 'Gitlab::Satellite::MergeAction' do
   let(:merge_request) { create(:merge_request, source_project: project, target_project: project) }
   let(:merge_request_fork) { create(:merge_request, source_project: fork_project, target_project: project) }
 
+  let(:merge_request_rebased) { create(:merge_request, :rebased, source_project: project, target_project: project) }
+  let(:merge_request_with_divergence) { create(:merge_request, :diverged, source_project: project, target_project: project) }
+  let(:merge_request_fork_with_divergence) { create(:merge_request, :diverged, source_project: fork_project, target_project: project) }
+
   let(:merge_request_with_conflict) { create(:merge_request, :conflict, source_project: project, target_project: project) }
   let(:merge_request_fork_with_conflict) { create(:merge_request, :conflict, source_project: project, target_project: project) }
 
@@ -28,6 +32,30 @@ describe 'Gitlab::Satellite::MergeAction' do
     context 'between branches' do
       it 'should raise exception -- not expected to be used by non forks' do
         expect { Gitlab::Satellite::MergeAction.new(merge_request.author, merge_request).commits_between }.to raise_error(RuntimeError)
+      end
+    end
+  end
+
+  describe '#commits_diverged' do
+
+    context 'rebased on fork' do
+      it 'should get commits that are on target branch but not on source branch' do
+        commits = Gitlab::Satellite::MergeAction.new(merge_request_rebased.author, merge_request_rebased).commits_diverged
+        expect(commits.count).to eq(0)
+      end
+    end
+
+    context 'diverged on fork' do
+      it 'should get commits that are on target branch but not on source branch' do
+        commits = Gitlab::Satellite::MergeAction.new(merge_request_fork_with_divergence.author, merge_request_fork_with_divergence).commits_diverged
+        expect(commits.count).to eq(5)
+      end
+    end
+
+    context 'diverged on same repository' do
+      it 'should get commits that are on target branch but not on source branch' do
+        commits = Gitlab::Satellite::MergeAction.new(merge_request_with_divergence.author, merge_request_with_divergence).commits_diverged
+        expect(commits.count).to eq(5)
       end
     end
   end
