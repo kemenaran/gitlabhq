@@ -436,6 +436,20 @@ class MergeRequest < ActiveRecord::Base
     )
   end
 
+  def diverged_commits
+    walker = Rugged::Walker.new(project.repository.rugged)
+    walker.push(target_sha)
+    walker.hide(source_sha)
+    diverged_commits = []
+    walker.each { |c| diverged_commits << c }
+    
+    diverged_commits
+  end
+
+  def diverged_from_target_branch?
+    diverged_commits.present?
+  end
+
   def in_locked_state
     begin
       lock_mr
