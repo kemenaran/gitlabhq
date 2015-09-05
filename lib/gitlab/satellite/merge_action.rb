@@ -115,6 +115,25 @@ module Gitlab
         handle_exception(ex)
       end
 
+      # Retrieve an array of commits where the target diverged from the source
+      def commits_diverged
+        in_locked_and_timed_satellite do |merge_repo|
+          prepare_satellite!(merge_repo)
+          update_satellite_source_and_target!(merge_repo)
+
+          repository = Gitlab::Git::Repository.new(merge_repo.path)
+          walker = Rugged::Walker.new(repository.rugged)
+          walker.push(target_sha)
+          walker.hide(source_sha)
+          diverged_commits = []
+          walker.each { |c| diverged_commits << c }
+
+          return diverged_commits
+        end
+      rescue Grit::Git::CommandFailed => ex
+        handle_exception(ex)
+      end
+
       private
       # Merges the source_branch into the target_branch in the satellite.
       #
@@ -141,6 +160,14 @@ module Gitlab
         repo.git.checkout(default_options({ b: true }), merge_request.target_branch, "origin/#{merge_request.target_branch}")
       rescue Grit::Git::CommandFailed => ex
         handle_exception(ex)
+      end
+
+      def source_sha
+        @merge_request.commits.first.sha
+      end
+
+      def target_sha
+        @target_sha ||= @merge_request.target_project.repository.commit(@merge_request.target_branch).sha
       end
     end
   end
