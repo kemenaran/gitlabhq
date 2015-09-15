@@ -316,3 +316,73 @@ table.table.protected-branches-list tr.no-border {
 pre.light-well {
   border-color: #f1f1f1;
 }
+
+.projects-search-form {
+  margin: -$gl-padding;
+  background-color: #f8fafc;
+  padding: $gl-padding;
+  margin-bottom: 0px;
+  border-top: 1px solid #e7e9ed;
+  border-bottom: 1px solid #e7e9ed;
+}
+
+/*
+ * Projects list rendered on dashboard and user page
+ */
+.projects-list {
+  @include basic-list;
+
+  .project-row {
+    padding: $gl-padding;
+    border-color: #f1f2f4;
+    margin-left: -$gl-padding;
+    margin-right: -$gl-padding;
+
+    &.no-description {
+      .project {
+        line-height: 44px;
+      }
+    }
+
+    .project-full-name {
+      @include str-truncated;
+      font-weight: 600;
+      color: #4c4e54;
+    }
+
+    .pull-right.light {
+      line-height: 45px;
+      color: #7f8fa4;
+    }
+
+    .project-description {
+      color: #7f8fa4;
+
+      p {
+        @include str-truncated;
+        margin-bottom: 0;
+        color: #7f8fa4;
+      }
+    }
+  }
+
+  .bottom {
+    padding-top: $gl-padding;
+    padding-bottom: 0;
+  }
+}
+
+.panel .projects-list li {
+  padding: 10px 15px;
+  margin: 0;
+}
+
+.project-show-activity {
+  .activity-filter-block {
+    margin-top: -1px;
+  }
+}
+
+.inline-form {
+  display: inline-block;
+}
