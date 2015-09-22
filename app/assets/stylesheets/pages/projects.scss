@@ -318,9 +318,9 @@ pre.light-well {
 }
 
 .projects-search-form {
-  margin: -$gl-padding;
+  margin: -16px;
   background-color: #f8fafc;
-  padding: $gl-padding;
+  padding: 16px;
   margin-bottom: 0px;
   border-top: 1px solid #e7e9ed;
   border-bottom: 1px solid #e7e9ed;
@@ -330,13 +330,44 @@ pre.light-well {
  * Projects list rendered on dashboard and user page
  */
 .projects-list {
-  @include basic-list;
+  margin: 5px 0px;
+  padding: 0px;
+  list-style: none;
+
+  > li {
+    padding: 10px 0;
+    border-bottom: 1px solid #EEE;
+    overflow: hidden;
+    display: block;
+    margin: 0px;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &.active {
+      background: #f9f9f9;
+      a {
+        font-weight: bold;
+      }
+    }
+
+    &.hide {
+      display: none;
+    }
+
+    &.light {
+      a {
+        color: #999;
+      }
+    }
+  }
 
   .project-row {
-    padding: $gl-padding;
+    padding: 16px;
     border-color: #f1f2f4;
-    margin-left: -$gl-padding;
-    margin-right: -$gl-padding;
+    margin-left: -16px;
+    margin-right: -16px;
 
     &.no-description {
       .project {
@@ -367,7 +398,7 @@ pre.light-well {
   }
 
   .bottom {
-    padding-top: $gl-padding;
+    padding-top: 16px;
     padding-bottom: 0;
   }
 }
