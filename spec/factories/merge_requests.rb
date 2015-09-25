@@ -64,6 +64,16 @@ FactoryGirl.define do
       target_branch "master"
     end
 
+    trait :rebased do
+      source_branch "markdown"
+      target_branch "improve/awesome"
+    end
+
+    trait :diverged do
+      source_branch "feature"
+      target_branch "master"
+    end
+
     factory :closed_merge_request, traits: [:closed]
     factory :reopened_merge_request, traits: [:reopened]
     factory :merge_request_with_diffs, traits: [:with_diffs]

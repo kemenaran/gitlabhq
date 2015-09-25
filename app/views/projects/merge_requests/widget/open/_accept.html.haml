@@ -1,6 +1,8 @@
 = form_for [:merge, @project.namespace.becomes(Namespace), @project, @merge_request], remote: true, method: :post, html: { class: 'accept-mr-form js-requires-input' } do |f|
   = hidden_field_tag :authenticity_token, form_authenticity_token
   .accept-merge-holder.clearfix.js-toggle-container
+    - if @merge_request.diverged_from_target_branch?
+      = markdown "This MR is #{pluralize(@merge_request.diverged_commits_count, 'commit')} behind the `#{@merge_request.target_branch}` target branch."
     .accept-action
       = f.button class: "btn btn-create accept_merge_request" do
         Accept Merge Request

@@ -457,4 +457,19 @@ class MergeRequest < ActiveRecord::Base
       unlock_mr if locked?
     end
   end
+
+  def diverged_commits_count
+    # Perform the equivalent of `git log source-branch ^target-branch`
+    walker = Rugged::Walker.new(target_project.repository.rugged)
+    walker.push(target_sha)
+    walker.hide(source_sha)
+    diverged_commits = []
+    walker.each { |c| diverged_commits << c }
+
+    diverged_commits.count
+  end
+
+  def diverged_from_target_branch?
+    diverged_commits_count > 0
+  end
 end
